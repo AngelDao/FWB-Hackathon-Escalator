@@ -5,7 +5,7 @@ import CredentialsContext from "../../context/credentialsContext";
 import GIF from "../../assets/loading.gif";
 import { ranges } from "../../utils/ranges";
 import { ethers } from "ethers";
-import { HelperRock } from "../../utils/addresses";
+import { HelperRock, EtherRock } from "../../utils/addresses";
 import { readableTrunc } from "../../helpers/truncString";
 import {
   ConnectButton,
@@ -36,7 +36,6 @@ const SweepRange = () => {
     const rocks = [];
     debugger;
     const res = await helperRock.viewRockRange(range.from, range.to);
-    console.log("ROCKS RES", res)
     for (let i = range.from; i <= range.to; i++) {
       console.log(res[0][i], res[1][i], res[2][i], res[3][i])
       const price = ethers.utils.formatUnits(ethers.BigNumber.from(res[2][i]).toString(), 18);
@@ -50,13 +49,15 @@ const SweepRange = () => {
       };
       rocks.push(rock);
     }
+    console.log("ROCKS", rocks)
     return rocks;
   };
 
   const getLatestTXs = async () => {
+    const network = await account.provider.getNetwork();
     const txs = (
       await etherscan.account.txlist(
-        HelperRock,
+        EtherRock[network.chainId],
         13105682,
         "latest",
         1,
