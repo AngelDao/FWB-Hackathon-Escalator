@@ -30,7 +30,7 @@ const SweepRange = () => {
   const [rangeInfo, setRangeInfo] = useState({});
 
   const getRocks = async () => {
-    const { etherRock } = contracts;
+    const { helperRock } = contracts;
     const range = ranges[currentRange];
     const rocks = [];
     debugger;

@@ -17,7 +17,8 @@ function App() {
     setLoading(true);
     const signer = account.provider.getSigner();
     const address = await signer.getAddress();
-    const connectedContracts = await getContracts(signer);
+    const network = await account.provider.getNetwork();
+    const connectedContracts = await getContracts(signer, network.chainId);
     const { etherscan } = await getAPI();
     setEtherscan(etherscan);
     setContracts({ ...connectedContracts });

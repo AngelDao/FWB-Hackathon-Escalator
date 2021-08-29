@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import { EtherRock } from "../utils/addresses";
-import EtherRockABI from "../abis/Rock.json";
+import { HelperRock } from "../utils/addresses";
+import HelperRockABI from "../abis/HelperRock.json";
 
-export const getContracts = async (signer) => {
-  const etherRock = new ethers.Contract(EtherRock, EtherRockABI, signer);
-  const etherRockInterface = new ethers.utils.Interface(EtherRockABI);
-  return { etherRock, etherRockInterface };
+export const getContracts = async (signer, chainId) => {
+  const helperRock = new ethers.Contract(HelperRock[chainId], HelperRockABI, signer);
+  const helperRockInterface = new ethers.utils.Interface(HelperRockABI);
+  return { helperRock, helperRockInterface };
 };
