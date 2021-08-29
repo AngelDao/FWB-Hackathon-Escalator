@@ -34,7 +34,9 @@ const SweepRange = () => {
     const { helperRock } = contracts;
     const range = ranges[currentRange];
     const rocks = [];
+    debugger;
     const res = await helperRock.viewRockRange(range.from, range.to);
+    debugger;
     for (let i = range.from; i <= range.to; i++) {
       console.log(res[0][i], res[1][i], res[2][i], res[3][i]);
       const price = ethers.utils.formatUnits(
