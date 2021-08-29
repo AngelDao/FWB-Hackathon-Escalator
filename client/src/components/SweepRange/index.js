@@ -127,11 +127,18 @@ const SweepRange = () => {
 
   const sweep = async () => {
     const { helperRock } = contracts;
-    console.log("RANGE INFO", rangeInfo)
-    /*const sweep = helperRock.sweepRange(
-
-    );*/
-
+    console.log("RANGE INFO", rangeInfo, helperRock.sweepRange)
+    let overrides = {
+        // To convert Ether to Wei:
+        value: ethers.utils.parseEther((parseFloat(rangeInfo.floor) * rangeInfo.rocksInFloor.length).toString())
+    };
+    const sweep = await helperRock.sweepRange(
+      rangeInfo.rocksInFloor,
+      ethers.utils.parseEther(rangeInfo.floor),
+      ethers.utils.parseEther((parseFloat(rangeInfo.floor) + 1e-18).toString()),
+      overrides
+    );
+    console.log("SWEEP", sweep)
   }
 
 
@@ -220,6 +227,7 @@ const SweepRange = () => {
                     background: "rgb(44 171 55)",
                     color: "white",
                   }}
+                  onClick={sweep}
                 >
                   Sweep Range
                 </button>
