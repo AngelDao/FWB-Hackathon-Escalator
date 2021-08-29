@@ -77,6 +77,7 @@ const SweepRange = () => {
 
   const getSortedRocks = (rocks) => {
     const r = rocks.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    debugger;
     const s = r.filter((r) => r.forSale);
     return s;
   };
@@ -119,23 +120,31 @@ const SweepRange = () => {
     const rocks = await getRocks();
     const txs = await getLatestTXs();
     const sortedRocksASC = getSortedRocks(rocks);
-    const floor = sortedRocksASC[0].price;
-    const rocksOnFloor = sortedRocksASC.filter((r) => r.price === floor);
-    const floorWidth = rocksOnFloor.length * parseFloat(floor);
-    const rocksInFloor = rocksOnFloor.map((r) => r.rock_number);
-    const [lsRockNumber, lsValue] = await getLastSale(txs);
-    return { floor, floorWidth, rocksInFloor, lsRockNumber, lsValue };
+    if (sortedRocksASC.length) {
+      const floor = sortedRocksASC[0].price;
+      const rocksOnFloor = sortedRocksASC.filter((r) => r.price === floor);
+      const floorWidth = rocksOnFloor.length * parseFloat(floor);
+      const rocksInFloor = rocksOnFloor.map((r) => r.rock_number);
+      const [lsRockNumber, lsValue] = await getLastSale(txs);
+      return { floor, floorWidth, rocksInFloor, lsRockNumber, lsValue };
+    } else {
+      return {
+        floor: "NA",
+        floorWidth: "NA",
+        rocksInFloor: "NA",
+        lsRockNumber: "NA",
+        lsValue: "NA",
+      };
+    }
   };
 
   const sweep = async () => {
     const { helperRock } = contracts;
-    console.log("RANGE INFO", rangeInfo)
+    console.log("RANGE INFO", rangeInfo);
     /*const sweep = helperRock.sweepRange(
 
     );*/
-
-  }
-
+  };
 
   useEffect(() => {
     (async () => {
