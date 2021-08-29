@@ -42,12 +42,12 @@ contract HelperRock {
         returns (address[] memory , bool[] memory , uint[] memory , uint[] memory )
     {
 
-        address[] memory rockOwners = new address[]((endId - startId)+1);
-        bool[] memory rocksCurrentlyForSale = new bool[]((endId - startId)+1);
-        uint[] memory rocksPrice = new uint[]((endId - startId)+1);
-        uint[] memory rocksTimesSold = new uint[]((endId - startId)+1);
+        address[] memory rockOwners = new address[](endId + 1);
+        bool[] memory rocksCurrentlyForSale = new bool[](endId + 1);
+        uint[] memory rocksPrice = new uint[](endId + 1);
+        uint[] memory rocksTimesSold = new uint[](endId + 1);
         
-        for (uint256 i = startId; i < (endId + 1); i++) {
+        for (uint256 i = startId; i <= endId; i++) {
             (address owner, bool currentlyForSale, uint price, uint timesSold) = allRocks.rocks(i);
             rockOwners[i] = owner;
             rocksCurrentlyForSale[i] = currentlyForSale;

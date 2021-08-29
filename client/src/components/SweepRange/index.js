@@ -125,6 +125,16 @@ const SweepRange = () => {
     return { floor, floorWidth, rocksInFloor, lsRockNumber, lsValue };
   };
 
+  const sweep = async () => {
+    const { helperRock } = contracts;
+    console.log("RANGE INFO", rangeInfo)
+    /*const sweep = helperRock.sweepRange(
+
+    );*/
+
+  }
+
+
   useEffect(() => {
     (async () => {
       if (account.address) {
