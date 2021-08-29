@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
+import { BigNumber } from "bignumber.js";
 import { MasterStyles } from "../../masterStyles";
 import CredentialsContext from "../../context/credentialsContext";
 import GIF from "../../assets/loading.gif";
 import { ranges } from "../../utils/ranges";
 import { ethers } from "ethers";
-import { EtherRock } from "../../utils/addresses";
+import { HelperRock } from "../../utils/addresses";
 import { readableTrunc } from "../../helpers/truncString";
 import {
   ConnectButton,
@@ -34,15 +35,16 @@ const SweepRange = () => {
     const range = ranges[currentRange];
     const rocks = [];
     debugger;
+    const res = await helperRock.viewRockRange(range.from, range.to);
+    console.log("ROCKS RES", res)
     for (let i = range.from; i <= range.to; i++) {
-      console.log(i);
-      const res = await etherRock.rocks(i);
-      const price = ethers.utils.formatUnits(res.price.toString(), 18);
-      const timesSold = res.timesSold.toString();
+      console.log(res[0][i], res[1][i], res[2][i], res[3][i])
+      const price = ethers.utils.formatUnits(ethers.BigNumber.from(res[2][i]).toString(), 18);
+      const timesSold = ethers.BigNumber.from(res[3][i]).toString();
       const rock = {
         rock_number: i,
-        owner: res.owner,
-        forSale: res.currentlyForSale,
+        owner: res[0][i],
+        forSale: res[1][i],
         price,
         timesSold,
       };
@@ -54,7 +56,7 @@ const SweepRange = () => {
   const getLatestTXs = async () => {
     const txs = (
       await etherscan.account.txlist(
-        EtherRock,
+        HelperRock,
         13105682,
         "latest",
         1,
