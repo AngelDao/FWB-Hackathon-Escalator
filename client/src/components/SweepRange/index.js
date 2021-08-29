@@ -34,11 +34,13 @@ const SweepRange = () => {
     const { helperRock } = contracts;
     const range = ranges[currentRange];
     const rocks = [];
-    debugger;
     const res = await helperRock.viewRockRange(range.from, range.to);
     for (let i = range.from; i <= range.to; i++) {
-      console.log(res[0][i], res[1][i], res[2][i], res[3][i])
-      const price = ethers.utils.formatUnits(ethers.BigNumber.from(res[2][i]).toString(), 18);
+      console.log(res[0][i], res[1][i], res[2][i], res[3][i]);
+      const price = ethers.utils.formatUnits(
+        ethers.BigNumber.from(res[2][i]).toString(),
+        18
+      );
       const timesSold = ethers.BigNumber.from(res[3][i]).toString();
       const rock = {
         rock_number: i,
@@ -49,22 +51,25 @@ const SweepRange = () => {
       };
       rocks.push(rock);
     }
-    console.log("ROCKS", rocks)
+    console.log("ROCKS", rocks);
     return rocks;
   };
 
   const getLatestTXs = async () => {
     const network = await account.provider.getNetwork();
+    const e = EtherRock[network.chainId];
+    debugger;
     const txs = (
       await etherscan.account.txlist(
         EtherRock[network.chainId],
-        13105682,
+        9185158,
         "latest",
         1,
         5000,
         "desc"
       )
     ).result;
+    debugger;
     return txs.filter((tx) => tx.isError === "0");
   };
 
@@ -75,15 +80,19 @@ const SweepRange = () => {
   };
 
   const getLastSale = async (txs) => {
+    debugger;
     const { etherRockInterface } = contracts;
     for (let i = 0; i < txs.length; i++) {
+      debugger;
       let input;
       try {
         input = etherRockInterface.decodeFunctionData("buyRock", txs[i].input);
       } catch (e) {
-        // console.log("not a buy");
+        console.log("not a buy");
+        console.log(e);
       }
       if (input) {
+        debugger;
         const rockNumber = parseInt(input.rockNumber.toString());
         const blockNumber = txs[i].blockNumber;
         const value = parseFloat(

@@ -20,6 +20,7 @@ function App() {
     const network = await account.provider.getNetwork();
     const connectedContracts = await getContracts(signer, network.chainId);
     const { etherscan } = await getAPI();
+    debugger;
     setEtherscan(etherscan);
     setContracts({ ...connectedContracts });
     setAccount({ ...account, signer, address });
